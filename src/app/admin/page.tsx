@@ -6,9 +6,10 @@ import { supabase } from '@/lib/supabaseClient';
 import Login from '@/components/admin/Login';
 import ProfileEditor from '@/components/admin/ProfileEditor';
 import ProjectsEditor from '@/components/admin/ProjectsEditor';
+import ExperienceEditor from '@/components/admin/ExperienceEditor';
 import PostsEditor from '@/components/admin/PostsEditor';
 
-type Tab = 'profile' | 'projects' | 'posts';
+type Tab = 'profile' | 'experience' | 'projects' | 'posts';
 
 export default function AdminPage() {
   const [session, setSession] = useState<Session | null>(null);
@@ -36,6 +37,7 @@ export default function AdminPage() {
 
   const tabs: [Tab, string][] = [
     ['profile', 'Profile'],
+    ['experience', 'Experience'],
     ['projects', 'Projects'],
     ['posts', 'Blog Posts'],
   ];
@@ -77,6 +79,7 @@ export default function AdminPage() {
         </div>
 
         {tab === 'profile' && <ProfileEditor />}
+        {tab === 'experience' && <ExperienceEditor />}
         {tab === 'projects' && <ProjectsEditor />}
         {tab === 'posts' && <PostsEditor />}
       </div>

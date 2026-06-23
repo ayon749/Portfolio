@@ -2,6 +2,7 @@
 
 export default function Nav({ name }: { name?: string }) {
   const links = [
+    ['Experience', '#experience'],
     ['Projects', '#projects'],
     ['Skills', '#skills'],
     ['Blog', '#blog'],

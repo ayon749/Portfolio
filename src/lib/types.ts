@@ -30,6 +30,17 @@ export interface Project {
   created_at: string;
 }
 
+export interface Experience {
+  id: string;
+  company: string;
+  position: string;
+  start_date: string | null; // 'YYYY-MM-DD'
+  end_date: string | null; // 'YYYY-MM-DD'
+  is_current: boolean;
+  responsibilities: string; // one bullet per line
+  created_at: string;
+}
+
 export interface Post {
   id: string;
   slug: string;

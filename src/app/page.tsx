@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
-import type { Profile, Project, Post } from '@/lib/types';
+import type { Profile, Project, Post, Experience } from '@/lib/types';
 import Nav from '@/components/Nav';
 import Hero from '@/components/Hero';
+import ExperienceSection from '@/components/Experience';
 import Projects from '@/components/Projects';
 import TechStack from '@/components/TechStack';
 import Blog from '@/components/Blog';
@@ -14,14 +15,19 @@ import Reveal from '@/components/Reveal';
 export default function HomePage() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [experiences, setExperiences] = useState<Experience[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
-      const [p, pr, po] = await Promise.all([
+      const [p, pr, ex, po] = await Promise.all([
         supabase.from('profile').select('*').eq('id', 1).single(),
         supabase.from('projects').select('*').order('sort_order', { ascending: true }),
+        supabase
+          .from('experiences')
+          .select('*')
+          .order('start_date', { ascending: false, nullsFirst: false }),
         supabase
           .from('posts')
           .select('*')
@@ -30,6 +36,7 @@ export default function HomePage() {
       ]);
       if (p.data) setProfile(p.data as Profile);
       if (pr.data) setProjects(pr.data as Project[]);
+      if (ex.data) setExperiences(ex.data as Experience[]);
       if (po.data) setPosts(po.data as Post[]);
       setLoading(false);
     }
@@ -49,6 +56,9 @@ export default function HomePage() {
       <Nav name={profile?.full_name} />
       <Hero profile={profile} />
       <div className="container-page space-y-24 py-16">
+        <Reveal>
+          <ExperienceSection items={experiences} />
+        </Reveal>
         <Reveal>
           <Projects projects={projects} />
         </Reveal>
