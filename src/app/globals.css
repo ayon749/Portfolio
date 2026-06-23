@@ -45,3 +45,76 @@ body {
 .label {
   @apply mb-1 block text-xs font-medium uppercase tracking-wide text-muted;
 }
+
+/* ============================ Animations ============================ */
+
+/* Aurora gradient blobs that drift behind the hero */
+@keyframes aurora {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(8%, -6%) scale(1.15); }
+  66%  { transform: translate(-6%, 8%) scale(0.95); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+.aurora-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.5;
+  will-change: transform;
+  animation: aurora 18s ease-in-out infinite;
+}
+
+/* Slowly drifting dotted code-grid */
+@keyframes grid-drift {
+  from { background-position: 0 0; }
+  to   { background-position: 40px 40px; }
+}
+.code-grid {
+  background-image: radial-gradient(rgba(99, 102, 241, 0.25) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: grid-drift 6s linear infinite;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+
+/* Gentle float for the tech icons */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+.float-slow { animation: float 4s ease-in-out infinite; }
+
+/* Animated gradient text */
+@keyframes text-shimmer {
+  to { background-position: 200% center; }
+}
+.gradient-text {
+  background: linear-gradient(90deg, #818cf8, #22d3ee, #a78bfa, #818cf8);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-shimmer 4s linear infinite;
+}
+
+/* Blinking terminal cursor */
+@keyframes blink { 50% { opacity: 0; } }
+.cursor { animation: blink 1s step-end infinite; }
+
+/* Scroll-reveal: hidden until .is-visible is added by the observer */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .aurora-blob, .code-grid, .float-slow, .gradient-text, .cursor {
+    animation: none !important;
+  }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}

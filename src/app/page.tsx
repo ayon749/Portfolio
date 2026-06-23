@@ -6,9 +6,10 @@ import type { Profile, Project, Post } from '@/lib/types';
 import Nav from '@/components/Nav';
 import Hero from '@/components/Hero';
 import Projects from '@/components/Projects';
-import Skills from '@/components/Skills';
+import TechStack from '@/components/TechStack';
 import Blog from '@/components/Blog';
 import Contact from '@/components/Contact';
+import Reveal from '@/components/Reveal';
 
 export default function HomePage() {
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -48,10 +49,16 @@ export default function HomePage() {
       <Nav name={profile?.full_name} />
       <Hero profile={profile} />
       <div className="container-page space-y-24 py-16">
-        <Projects projects={projects} />
-        <Skills skills={profile?.skills ?? []} />
-        <Blog posts={posts} />
-        <Contact profile={profile} />
+        <Reveal>
+          <Projects projects={projects} />
+        </Reveal>
+        <TechStack skills={profile?.skills ?? []} />
+        <Reveal>
+          <Blog posts={posts} />
+        </Reveal>
+        <Reveal>
+          <Contact profile={profile} />
+        </Reveal>
       </div>
       <footer className="border-t border-white/5 py-8 text-center text-sm text-muted">
         © {new Date().getFullYear()} {profile?.full_name || 'Your Name'}.{' '}
