@@ -11,7 +11,9 @@ const BLANK: Profile = {
   bio: '',
   location: '',
   email: '',
+  phone: '',
   photo_url: '',
+  cover_url: '',
   resume_url: '',
   github_url: '',
   linkedin_url: '',
@@ -44,7 +46,11 @@ export default function ProfileEditor() {
     setP((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleUpload(folder: string, key: 'photo_url' | 'resume_url', file?: File) {
+  async function handleUpload(
+    folder: string,
+    key: 'photo_url' | 'resume_url' | 'cover_url',
+    file?: File
+  ) {
     if (!file) return;
     setBusy(true);
     setStatus(`Uploading ${file.name}…`);
@@ -94,6 +100,15 @@ export default function ProfileEditor() {
         <Field label="Email">
           <input className="input" value={p.email ?? ''} onChange={(e) => set('email', e.target.value)} />
         </Field>
+        <Field label="Phone">
+          <input
+            className="input"
+            type="tel"
+            value={p.phone ?? ''}
+            onChange={(e) => set('phone', e.target.value)}
+            placeholder="+1 555 123 4567"
+          />
+        </Field>
       </div>
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="GitHub URL">
@@ -116,6 +131,14 @@ export default function ProfileEditor() {
           onChange={(e) => setSkillsText(e.target.value)}
           placeholder="React, TypeScript, Node.js, Azure, SQL"
         />
+      </Field>
+
+      <Field label="Cover photo (banner)">
+        {publicUrl(p.cover_url) && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={publicUrl(p.cover_url) as string} alt="" className="mb-2 h-24 w-full rounded-lg object-cover" />
+        )}
+        <input type="file" accept="image/*" onChange={(e) => handleUpload('cover', 'cover_url', e.target.files?.[0])} />
       </Field>
 
       <div className="grid gap-5 sm:grid-cols-2">

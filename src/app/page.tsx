@@ -61,10 +61,16 @@ export default function HomePage() {
         </Reveal>
       </div>
       <footer className="border-t border-white/5 py-8 text-center text-sm text-muted">
-        © {new Date().getFullYear()} {profile?.full_name || 'Your Name'}.{' '}
-        <a href="./admin/" className="text-accent hover:underline">
-          Admin
-        </a>
+        <p>
+          © {new Date().getFullYear()} {profile?.full_name || 'Your Name'}.{' '}
+          <a href="./admin/" className="text-accent hover:underline">
+            Admin
+          </a>
+        </p>
+        <p className="mt-2 text-xs">
+          Built with ☕ at Central Perk &middot; powered by clean code &amp; the occasional
+          <span className="font-semibold text-pink-400"> Bazinga!</span>
+        </p>
       </footer>
     </main>
   );

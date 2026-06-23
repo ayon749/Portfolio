@@ -2,11 +2,12 @@
 
 import { publicUrl } from '@/lib/supabaseClient';
 import type { Project } from '@/lib/types';
+import SectionHeading from './SectionHeading';
 
 export default function Projects({ projects }: { projects: Project[] }) {
   return (
     <section id="projects" className="scroll-mt-20">
-      <h2 className="section-title mb-6">Projects</h2>
+      <SectionHeading title="Projects" episode="The One With The Builds" />
       {projects.length === 0 ? (
         <p className="text-muted">No projects yet — add some in the admin panel.</p>
       ) : (

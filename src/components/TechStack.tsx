@@ -4,6 +4,7 @@ import type { IconType } from 'react-icons';
 import { SiDotnet, SiSharp, SiReact, SiClaude } from 'react-icons/si';
 import { FaDatabase, FaCloud } from 'react-icons/fa';
 import Reveal from './Reveal';
+import SectionHeading from './SectionHeading';
 
 type Tech = { name: string; category: string; Icon: IconType; color: string };
 
@@ -19,8 +20,7 @@ const STACK: Tech[] = [
 export default function TechStack({ skills }: { skills: string[] }) {
   return (
     <section id="skills" className="scroll-mt-20">
-      <h2 className="section-title mb-2">Skills &amp; Tech Stack</h2>
-      <p className="mb-8 text-muted">The tools I build with every day.</p>
+      <SectionHeading title="Skills & Tech Stack" episode="The One With The Tech Stack" />
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
         {STACK.map((t, i) => (

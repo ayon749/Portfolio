@@ -7,7 +7,9 @@ export interface Profile {
   bio: string;
   location: string | null;
   email: string | null;
+  phone: string | null;
   photo_url: string | null; // storage path or full URL
+  cover_url: string | null; // banner image — storage path or full URL
   resume_url: string | null; // storage path or full URL
   github_url: string | null;
   linkedin_url: string | null;

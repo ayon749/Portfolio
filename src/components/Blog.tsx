@@ -4,13 +4,14 @@ import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { publicUrl } from '@/lib/supabaseClient';
 import type { Post } from '@/lib/types';
+import SectionHeading from './SectionHeading';
 
 export default function Blog({ posts }: { posts: Post[] }) {
   const [open, setOpen] = useState<Post | null>(null);
 
   return (
     <section id="blog" className="scroll-mt-20">
-      <h2 className="section-title mb-6">Blog</h2>
+      <SectionHeading title="Blog" episode="The One Where I Write" />
       {posts.length === 0 ? (
         <p className="text-muted">No posts yet — write one in the admin panel.</p>
       ) : (

@@ -6,9 +6,9 @@ import Typewriter from './Typewriter';
 
 export default function Hero({ profile }: { profile: Profile | null }) {
   const photo = publicUrl(profile?.photo_url);
+  const cover = publicUrl(profile?.cover_url);
   const resume = publicUrl(profile?.resume_url);
 
-  // Roles cycled by the typewriter — leads with the profile headline if set.
   const roles = [
     profile?.headline || 'Software Engineer',
     '.NET Core Developer',
@@ -17,7 +17,7 @@ export default function Hero({ profile }: { profile: Profile | null }) {
   ].filter(Boolean);
 
   return (
-    <section id="top" className="relative overflow-hidden pt-24 pb-16">
+    <section id="top" className="relative overflow-hidden pb-16">
       {/* animated background */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="aurora-blob left-[-10%] top-[-10%] h-72 w-72 bg-accent" />
@@ -32,18 +32,54 @@ export default function Hero({ profile }: { profile: Profile | null }) {
         <div className="absolute inset-0 code-grid" />
       </div>
 
-      <div className="container-page">
-        <div className="flex flex-col items-start gap-10 lg:flex-row lg:items-center">
+      <div className="container-page pt-20">
+        {/* cover banner (LinkedIn-style) */}
+        <div className="relative h-40 w-full overflow-hidden rounded-2xl border border-white/10 sm:h-52">
+          {cover ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={cover} alt="Cover" className="h-full w-full object-cover" />
+          ) : (
+            <div className="h-full w-full bg-gradient-to-r from-accent/40 via-cyan-500/30 to-violet-500/40">
+              <div className="absolute inset-0 code-grid opacity-60" />
+            </div>
+          )}
+          {/* Friends-style colored dots in the corner */}
+          <div className="absolute right-4 top-4 flex gap-2">
+            {['#ef4444', '#3b82f6', '#eab308', '#ef4444'].map((c, i) => (
+              <span key={i} className="h-3 w-3 rounded-full" style={{ background: c }} />
+            ))}
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent" />
+        </div>
+
+        {/* profile photo overlapping the banner */}
+        <div className="-mt-12 flex items-end gap-4 px-1 sm:-mt-14">
+          {photo && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={photo}
+              alt={profile?.full_name || 'Profile photo'}
+              className="h-24 w-24 rounded-2xl object-cover ring-4 ring-bg sm:h-28 sm:w-28"
+            />
+          )}
+          <span className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/10 bg-surface/70 px-3 py-1 text-xs text-muted backdrop-blur">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
+            Available for opportunities
+          </span>
+        </div>
+
+        <div className="mt-6 flex flex-col items-start gap-10 lg:flex-row lg:items-center">
           <div className="flex-1">
-            <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-surface/60 px-3 py-1 text-xs text-muted backdrop-blur">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
-              Available for opportunities
-            </p>
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
               {profile?.full_name || 'Your Name'}
             </h1>
             <p className="mt-3 text-xl sm:text-2xl">
               <Typewriter phrases={roles} />
+            </p>
+            <p className="mt-2 text-sm italic text-muted">
+              {/* The Big Bang Theory wink */}
+              &ldquo;I&rsquo;m not insane, my code just has a tendency to compile on the first
+              try.&rdquo; <span className="not-italic">🧠</span>
             </p>
             <p className="mt-5 max-w-xl leading-relaxed text-muted">
               {profile?.bio || 'Add your bio from the admin panel.'}
@@ -85,16 +121,7 @@ export default function Hero({ profile }: { profile: Profile | null }) {
             </div>
           </div>
 
-          {/* right: photo + terminal window */}
-          <div className="w-full max-w-sm space-y-5">
-            {photo && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={photo}
-                alt={profile?.full_name || 'Profile photo'}
-                className="float-slow mx-auto h-36 w-36 rounded-2xl object-cover ring-2 ring-accent/40 sm:h-40 sm:w-40"
-              />
-            )}
+          <div className="w-full max-w-sm">
             <CodeWindow name={profile?.full_name || 'engineer'} />
           </div>
         </div>
@@ -110,7 +137,7 @@ function CodeWindow({ name }: { name: string }) {
         <span className="h-3 w-3 rounded-full bg-red-400/80" />
         <span className="h-3 w-3 rounded-full bg-yellow-400/80" />
         <span className="h-3 w-3 rounded-full bg-green-400/80" />
-        <span className="ml-2 text-xs text-muted">~/dev — zsh</span>
+        <span className="ml-2 text-xs text-muted">~/apartment_4A — zsh</span>
       </div>
       <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed">
         <code>
@@ -122,8 +149,9 @@ function CodeWindow({ name }: { name: string }) {
           {'\n'}
           <span className="text-cyan-300">{'>'} Azure Cloud · Claude AI</span>
           {'\n\n'}
-          <span className="text-accent">$</span> status{'\n'}
-          <span className="text-violet-300">{'>'} building things that scale </span>
+          <span className="text-accent">$</span> ./run_tests.sh{'\n'}
+          <span className="text-yellow-300">{'>'} All passing. </span>
+          <span className="font-bold text-pink-400">Bazinga!</span>{' '}
           <span className="cursor text-accent">▮</span>
         </code>
       </pre>

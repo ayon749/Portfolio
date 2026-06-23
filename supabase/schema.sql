@@ -17,7 +17,9 @@ create table if not exists public.profile (
   bio         text not null default '',
   location    text,
   email       text,
+  phone       text,
   photo_url   text,
+  cover_url   text,
   resume_url  text,
   github_url  text,
   linkedin_url text,
@@ -26,6 +28,10 @@ create table if not exists public.profile (
   skills      text[] not null default '{}',
   constraint single_row check (id = 1)
 );
+
+-- Safe to re-run: adds the newer columns to an existing profile table.
+alter table public.profile add column if not exists phone     text;
+alter table public.profile add column if not exists cover_url text;
 
 insert into public.profile (id) values (1)
 on conflict (id) do nothing;
