@@ -25,12 +25,18 @@ export default function ExperienceEditor() {
   }, []);
 
   async function addNew() {
+    setStatus('Adding…');
     const { data, error } = await supabase
       .from('experiences')
       .insert({ company: 'New company', position: 'Position' })
       .select()
       .single();
-    if (!error && data) setItems((prev) => [data as Experience, ...prev]);
+    if (error) {
+      setStatus('Could not add: ' + error.message);
+      return;
+    }
+    setItems((prev) => [data as Experience, ...prev]);
+    setStatus('Added — fill it in and Save. Click “+ Add experience” again for more.');
   }
 
   function patch(id: string, key: keyof Experience, value: unknown) {
