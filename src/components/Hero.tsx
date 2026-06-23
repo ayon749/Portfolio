@@ -52,8 +52,9 @@ export default function Hero({ profile }: { profile: Profile | null }) {
           <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent" />
         </div>
 
-        {/* profile photo overlapping the banner */}
-        <div className="-mt-12 flex items-end gap-4 px-1 sm:-mt-14">
+        {/* profile photo overlapping the banner (relative z-10 so it paints
+            ABOVE the position:relative banner instead of being covered by it) */}
+        <div className="relative z-10 -mt-12 flex items-end gap-4 px-1 sm:-mt-14">
           {photo && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
