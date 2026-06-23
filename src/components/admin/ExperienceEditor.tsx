@@ -17,6 +17,7 @@ export default function ExperienceEditor() {
     const { data } = await supabase
       .from('experiences')
       .select('*')
+      .order('is_current', { ascending: false })
       .order('start_date', { ascending: false, nullsFirst: false });
     setItems((data as Experience[]) ?? []);
   }

@@ -27,6 +27,7 @@ export default function HomePage() {
         supabase
           .from('experiences')
           .select('*')
+          .order('is_current', { ascending: false })
           .order('start_date', { ascending: false, nullsFirst: false }),
         supabase
           .from('posts')
