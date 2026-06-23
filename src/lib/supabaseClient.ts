@@ -4,14 +4,22 @@ const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 if (!url || !anonKey) {
-  // Surfaced in the browser console during dev if .env.local is missing.
+  // Surfaced in the console if env vars are missing. We still create the client
+  // with a harmless placeholder URL so the build/prerender never crashes —
+  // requests simply won't return data until real keys are provided.
   console.warn(
     '[supabase] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY. ' +
-      'Copy .env.local.example to .env.local and fill in your project values.'
+      'Set them in .env.local (local) and as GitHub Actions secrets (deploy).'
   );
 }
 
-export const supabase = createClient(url ?? '', anonKey ?? '');
+// createClient() throws if the URL is empty, which would break `next build`.
+// Fall back to a syntactically valid placeholder so the static export succeeds
+// even before the secrets are configured.
+export const supabase = createClient(
+  url || 'https://placeholder.supabase.co',
+  anonKey || 'placeholder-anon-key'
+);
 
 // Public URL of the storage bucket used for uploads (images, resume).
 export const MEDIA_BUCKET = 'media';
