@@ -1,5 +1,8 @@
 'use client';
 
+import type { IconType } from 'react-icons';
+import { FaGithub, FaLinkedin, FaGlobe } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { publicUrl } from '@/lib/supabaseClient';
 import type { Profile } from '@/lib/types';
 import Typewriter from './Typewriter';
@@ -8,6 +11,13 @@ export default function Hero({ profile }: { profile: Profile | null }) {
   const photo = publicUrl(profile?.photo_url);
   const cover = publicUrl(profile?.cover_url);
   const resume = publicUrl(profile?.resume_url);
+
+  const socials: { url?: string | null; label: string; Icon: IconType; color: string }[] = [
+    { url: profile?.github_url, label: 'GitHub', Icon: FaGithub, color: '#e2e8f0' },
+    { url: profile?.linkedin_url, label: 'LinkedIn', Icon: FaLinkedin, color: '#0a66c2' },
+    { url: profile?.twitter_url, label: 'X', Icon: FaXTwitter, color: '#e2e8f0' },
+    { url: profile?.website_url, label: 'Website', Icon: FaGlobe, color: '#22d3ee' },
+  ];
 
   const roles = [
     profile?.headline || 'Software Engineer',
@@ -98,27 +108,23 @@ export default function Hero({ profile }: { profile: Profile | null }) {
                 Get in touch
               </a>
             </div>
-            <div className="mt-6 flex gap-4 text-sm text-muted">
-              {profile?.github_url && (
-                <a className="hover:text-slate-100" href={profile.github_url} target="_blank" rel="noreferrer">
-                  GitHub
-                </a>
-              )}
-              {profile?.linkedin_url && (
-                <a className="hover:text-slate-100" href={profile.linkedin_url} target="_blank" rel="noreferrer">
-                  LinkedIn
-                </a>
-              )}
-              {profile?.twitter_url && (
-                <a className="hover:text-slate-100" href={profile.twitter_url} target="_blank" rel="noreferrer">
-                  Twitter / X
-                </a>
-              )}
-              {profile?.website_url && (
-                <a className="hover:text-slate-100" href={profile.website_url} target="_blank" rel="noreferrer">
-                  Website
-                </a>
-              )}
+            <div className="mt-6 flex flex-wrap gap-3">
+              {socials
+                .filter((s) => s.url)
+                .map(({ url, label, Icon, color }) => (
+                  <a
+                    key={label}
+                    className="social-chip"
+                    style={{ ['--c' as string]: color }}
+                    href={url as string}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={label}
+                  >
+                    <Icon className="social-icon h-4 w-4" />
+                    {label}
+                  </a>
+                ))}
             </div>
           </div>
 
